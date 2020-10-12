@@ -56,7 +56,8 @@ class GenerateEventsCommand extends Command
                         break 3;
                     }
                 }
-                $redis->lPush('group_'.substr($userId, 0, 1), $userId.':'.json_encode($eventsArray)); // разбиваем ивенты на группы по первой цифре из id юзера
+                $groupNum = $userId >= 1000? 10 : substr($userId, 0, 1);
+                $redis->lPush('group_'.$groupNum, $userId.':'.json_encode($eventsArray)); // разбиваем ивенты на группы по первой цифре из id юзера
             }
         }
         $output->writeln('в очередь помещено '.self::maxEvents.' ивентов');
